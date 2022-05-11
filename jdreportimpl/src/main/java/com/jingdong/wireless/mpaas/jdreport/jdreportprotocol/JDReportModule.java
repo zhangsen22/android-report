@@ -6,26 +6,25 @@ import com.jingdong.wireless.mpaas.jdreport.handler.JdReportHandler;
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportType;
 import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager;
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams;
-import java.util.Map;
 
 public class JDReportModule{
 
     /**
      * 保存崩溃信息
      */
-    public void saveCrashInfo(Map<String, Object> params) {
+    public void saveCrashInfo(String params) {
         saveCrashInfo(params);
     }
 
-     public void saveCrashInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
-        saveInfo(JdReportType.CRASH, params, listener, info);
+     public void saveCrashInfo(String params, IJDReportListener listener) {
+        saveInfo(JdReportType.CRASH, params, listener);
     }
 
     /**
      * 保存网络信息
      */
-    public void saveNetInfo(Map<String, Object> params) {
-        saveInfo(JdReportType.NET, params, null, null);
+    public void saveNetInfo(String params) {
+        saveInfo(JdReportType.NET, params, null);
     }
 
     /**
@@ -33,8 +32,8 @@ public class JDReportModule{
      *
      * @param params
      */
-    public void reportCrashInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
-        reportInfo(JdReportType.CRASH, params, listener, info);
+    public void reportCrashInfo(String params, IJDReportListener listener) {
+        reportInfo(JdReportType.CRASH, params, listener);
     }
 
     /**
@@ -42,8 +41,8 @@ public class JDReportModule{
      *
      * @param params
      */
-    public void reportNetInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
-        reportInfo(JdReportType.NET, params, listener, info);
+    public void reportNetInfo(String params, IJDReportListener listener) {
+        reportInfo(JdReportType.NET, params, listener);
     }
 
     public static void onCreate(Context context, boolean b) {
@@ -52,17 +51,17 @@ public class JDReportModule{
     }
 
     private void saveInfo(
-            JdReportType type, Map<String, Object> params,
-            IJDReportListener listener, Object info) {
-        if (params != null && params.size() != 0) {
+            JdReportType type, String params,
+            IJDReportListener listener) {
+        if (params != null) {
             Log.i(CommonParams.TAG, "JDReportModule.saveInfo()");
-            JdReportHandler.INSTANCE.saveInfo(type, params, listener, info);
+            JdReportHandler.INSTANCE.saveInfo(type, params, listener);
         }
     }
 
-    private void reportInfo(JdReportType type, Map<String, Object> body,
-                            IJDReportListener listener, Object info) {
+    private void reportInfo(JdReportType type, String body,
+                            IJDReportListener listener) {
         Log.i(CommonParams.TAG, "JDReportModule.reportInfo()");
-        JdReportManager.INSTANCE.reportForOuter(type, body, listener, info);
+        JdReportManager.INSTANCE.reportForOuter(type, body, listener);
     }
 }

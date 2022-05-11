@@ -54,8 +54,7 @@ internal object JdRequest {
     fun reportInfo(
         data: String,
         type: JdReportType,
-        listener: IJDReportListener?,
-        params: Any?
+        listener: IJDReportListener?
     ) {
         Log.e(
             TAG, "准备上报数据 \n " +
@@ -97,7 +96,7 @@ internal object JdRequest {
 
         GlobalScope.launch {
             Log.e(TAG, "开始上报数据")
-            listener?.onStart(params)
+            listener?.onStart(null)
 //            request.execute()
         }
     }

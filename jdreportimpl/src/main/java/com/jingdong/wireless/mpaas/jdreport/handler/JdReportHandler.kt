@@ -37,8 +37,7 @@ object JdReportHandler {
     private val gson = Gson()
 
     fun saveInfo(
-        type: JdReportType, params: MutableMap<String, Any?>?, listener: IJDReportListener? = null,
-        info: Any? = null
+        type: JdReportType, params: String?, listener: IJDReportListener? = null
     ) {
         if (!isInit) {
             Log.e(CommonParams.TAG, "JDReportModule has not init")
@@ -54,10 +53,10 @@ object JdReportHandler {
             if (getDefaultStrategyByType(type)?.enable == 1) {
                 getMMKV(type).encode(
                     type.name + SystemClock.currentThreadTimeMillis(),
-                    gson.toJson(params)
+                    params
                 )
             }
-            JdReportManager.reportByType(type, listener, info)
+            JdReportManager.reportByType(type, listener)
         }
     }
 

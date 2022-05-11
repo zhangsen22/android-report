@@ -15,8 +15,7 @@ object JdReportManager {
      * 上报方法
      */
     internal fun reportByType(
-        type: JdReportType, listener: IJDReportListener? = null,
-        info: Any? = null
+        type: JdReportType, listener: IJDReportListener? = null
     ) {
         // 判断当前网络环境是否满足下发的配置
         if ("all" == JdReportHandler.getDefaultStrategyByType(type)?.reportNet) {
@@ -44,21 +43,20 @@ object JdReportManager {
                     listener?.onError(code, msg, info)
                 }
 
-            }, info)
+            })
         }
     }
 
     fun reportForOuter(
         type: JdReportType,
-        body: Map<String, Any?>,
-        ijdReportListener: IJDReportListener?,
-        params: Any?
+        body: String?,
+        ijdReportListener: IJDReportListener?
     ) {
         // 判断当前网络环境是否满足下发的配置
         if ("all" == JdReportHandler.getDefaultStrategyByType(type)?.reportNet) {
-            val valueList = mutableListOf<Any>()
-            valueList.add(body)
-            JdRequest.reportInfo(gson.toJson(EntityBody(valueList)), type, ijdReportListener, params)
+            if (body != null) {
+                JdRequest.reportInfo(body, type, ijdReportListener)
+            }
         }
     }
 
