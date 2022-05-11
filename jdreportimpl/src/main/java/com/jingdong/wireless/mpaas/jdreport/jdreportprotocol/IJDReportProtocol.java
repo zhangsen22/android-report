@@ -1,6 +1,6 @@
 package com.jingdong.wireless.mpaas.jdreport.jdreportprotocol;
 
-import com.jingdong.wireless.mpaas.jdreport.entity.JDReportStrategy;
+//import com.jingdong.wireless.mpaas.jdreport.entity.JDReportStrategy;
 
 import java.util.Map;
 
@@ -32,9 +32,9 @@ public interface IJDReportProtocol{
      */
     void reportNetInfo(Map<String, Object> params, IJDReportListener listener, Object info);
 
-
-    /**
-     * 获取上报策略
-     */
-    JDReportStrategy getReportStrategy();
+//
+//    /**
+//     * 获取上报策略
+//     */
+//    JDReportStrategy getReportStrategy();
 }

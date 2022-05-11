@@ -20,7 +20,7 @@ object JdReportManager {
         info: Any? = null
     ) {
         // 判断当前网络环境是否满足下发的配置
-        if ("all" == JdReportHandler.getStrategyByType(type)?.reportNet) {
+        if ("all" == JdReportHandler.getDefaultStrategyByType(type)?.reportNet) {
             val maxLogCount = JdReportHandler.getDefaultStrategyByType(type).maxLogCount
             val pair = getRequestBean(type, maxLogCount)
             if (pair.second.size == 0) {
@@ -56,7 +56,7 @@ object JdReportManager {
         params: Any?
     ) {
         // 判断当前网络环境是否满足下发的配置
-        if ("all" == JdReportHandler.getStrategyByType(type)?.reportNet) {
+        if ("all" == JdReportHandler.getDefaultStrategyByType(type)?.reportNet) {
             val jdReportBaseEntity = JdReportBaseEntity.createEntity()
             val valueList = mutableListOf<Any>()
             valueList.add(body)

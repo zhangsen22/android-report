@@ -6,7 +6,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams
-import com.jingdong.wireless.mpaas.jdreport.entity.JDReportStrategy
+//import com.jingdong.wireless.mpaas.jdreport.entity.JDReportStrategy
 import com.jingdong.wireless.mpaas.jdreport.entity.Strategy
 import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IJDReportListener
 
@@ -25,7 +25,7 @@ import org.json.JSONObject
 object JdReportHandler {
 
     // 本地mmkv保存上报策略的key
-    private const val STRATEGY_BEAN_KEY = "mPaaS-JDReportStrategyConfig"
+//    private const val STRATEGY_BEAN_KEY = "mPaaS-JDReportStrategyConfig"
 
     // 本地mmkv保存拥有本地缓存数据的type类型的set
     private const val TYPE_SET_KEY = "TYPE_SET_KEY"
@@ -36,7 +36,7 @@ object JdReportHandler {
 
     private val mMkvMap = mutableMapOf<JdReportType, MMKV>()
 
-    private var jdReportStrategy: JDReportStrategy? = null
+//    private var jdReportStrategy: JDReportStrategy? = null
 
     @Volatile
     private var isInit = false
@@ -66,7 +66,7 @@ object JdReportHandler {
                         + "类型：${type}  " + "当前线程：${Thread.currentThread().name}"
             )
             // 判断配置中是否需要上报当前类型的数据
-            if (getStrategyByType(type)?.enable == 1) {
+            if (getDefaultStrategyByType(type)?.enable == 1) {
                 getMMKV(type).encode(
                     type.name + SystemClock.currentThreadTimeMillis(),
                     gson.toJson(params)
@@ -86,33 +86,33 @@ object JdReportHandler {
         }
     }
 
-    /**
-     * 获取上报策略配置
-     */
-    fun getCollectionConfig(): JDReportStrategy {
-        if (jdReportStrategy != null) {
-            return jdReportStrategy as JDReportStrategy
-        }
-        val configString: String? = configMMKV.getString(STRATEGY_BEAN_KEY, null)
-        try {
-            jdReportStrategy = gson.fromJson(configString, JDReportStrategy::class.java)
-        } catch (e: Exception) {
-            // 处理程序
-        } finally {
-            if (jdReportStrategy == null) {
-                jdReportStrategy = CommonParams.getDefaultReportStrategy()
-            }
-            return jdReportStrategy as JDReportStrategy
-        }
-    }
+//    /**
+//     * 获取上报策略配置
+//     */
+//    fun getCollectionConfig(): JDReportStrategy {
+//        if (jdReportStrategy != null) {
+//            return jdReportStrategy as JDReportStrategy
+//        }
+//        val configString: String? = configMMKV.getString(STRATEGY_BEAN_KEY, null)
+//        try {
+//            jdReportStrategy = gson.fromJson(configString, JDReportStrategy::class.java)
+//        } catch (e: Exception) {
+//            // 处理程序
+//        } finally {
+//            if (jdReportStrategy == null) {
+//                jdReportStrategy = CommonParams.getDefaultReportStrategy()
+//            }
+//            return jdReportStrategy as JDReportStrategy
+//        }
+//    }
 
-    /**
-     * 保存上报策略配置
-     */
-    internal fun putCollectionConfig(strategy: JDReportStrategy) {
-        jdReportStrategy = strategy
-        configMMKV.encode(STRATEGY_BEAN_KEY, gson.toJson(strategy))
-    }
+//    /**
+//     * 保存上报策略配置
+//     */
+//    internal fun putCollectionConfig(strategy: JDReportStrategy) {
+//        jdReportStrategy = strategy
+//        configMMKV.encode(STRATEGY_BEAN_KEY, gson.toJson(strategy))
+//    }
 
     /**
      * 保存本地已经保存过数据的类型
@@ -169,22 +169,22 @@ object JdReportHandler {
         return gson.fromJson(body, HashMap::class.java)
     }
 
-    internal fun getStrategyByType(type: JdReportType): Strategy? {
-        return when (type) {
-            JdReportType.CRASH -> getCollectionConfig().crash
-//            JdReportType.EXCEPTION -> getCollectionConfig().error
-//            JdReportType.PAGE -> getCollectionConfig().page
-            JdReportType.NET -> getCollectionConfig().request
-//            JdReportType.START -> getCollectionConfig().startup
-        }
-    }
+//    internal fun getStrategyByType(type: JdReportType): Strategy? {
+//        return when (type) {
+//            JdReportType.CRASH -> getCollectionConfig().crash
+////            JdReportType.EXCEPTION -> getCollectionConfig().error
+////            JdReportType.PAGE -> getCollectionConfig().page
+//            JdReportType.NET -> getCollectionConfig().request
+////            JdReportType.START -> getCollectionConfig().startup
+//        }
+//    }
 
     internal fun getDefaultStrategyByType(type: JdReportType): Strategy {
         return when (type) {
-            JdReportType.CRASH -> CommonParams.getDefaultReportStrategy().crash
+            JdReportType.CRASH -> CommonParams.getDefaultReportStrategy()
 //            JdReportType.EXCEPTION -> CommonParams.getDefaultReportStrategy().error
 //            JdReportType.PAGE -> CommonParams.getDefaultReportStrategy().page
-            JdReportType.NET -> CommonParams.getDefaultReportStrategy().request
+            JdReportType.NET -> CommonParams.getDefaultReportStrategy()
 //            JdReportType.START -> CommonParams.getDefaultReportStrategy().startup
         }
     }
