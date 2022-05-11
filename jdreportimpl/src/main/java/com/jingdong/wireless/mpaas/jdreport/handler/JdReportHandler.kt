@@ -8,7 +8,6 @@ import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams
 import com.jingdong.wireless.mpaas.jdreport.entity.Strategy
 import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IJDReportListener
-
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

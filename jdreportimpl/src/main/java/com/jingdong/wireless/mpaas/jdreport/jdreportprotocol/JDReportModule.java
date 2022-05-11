@@ -8,29 +8,40 @@ import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager;
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams;
 import java.util.Map;
 
-public class JDReportModule implements IJDReportProtocol {
+public class JDReportModule{
 
-    @Override
+    /**
+     * 保存崩溃信息
+     */
     public void saveCrashInfo(Map<String, Object> params) {
         saveCrashInfo(params);
     }
 
-    @Override
-    public void saveCrashInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
+     public void saveCrashInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
         saveInfo(JdReportType.CRASH, params, listener, info);
     }
 
-    @Override
+    /**
+     * 保存网络信息
+     */
     public void saveNetInfo(Map<String, Object> params) {
         saveInfo(JdReportType.NET, params, null, null);
     }
 
-    @Override
+    /**
+     * 上报崩溃信息
+     *
+     * @param params
+     */
     public void reportCrashInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
         reportInfo(JdReportType.CRASH, params, listener, info);
     }
 
-    @Override
+    /**
+     * 上报网络信息
+     *
+     * @param params
+     */
     public void reportNetInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
         reportInfo(JdReportType.NET, params, listener, info);
     }

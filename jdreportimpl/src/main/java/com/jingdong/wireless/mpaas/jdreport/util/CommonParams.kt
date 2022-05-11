@@ -5,7 +5,6 @@ import com.jingdong.wireless.mpaas.jdreportimpl.BuildConfig
 
 object CommonParams {
     const val TAG = "JDReportModule"
-    const val SDK_VERSION = BuildConfig.sdkVersion
     private val jdReportStrategy = Strategy(1, 30, "all", 100)
 
     /**
