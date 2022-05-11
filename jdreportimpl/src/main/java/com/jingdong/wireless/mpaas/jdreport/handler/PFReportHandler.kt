@@ -4,15 +4,15 @@ import android.content.Context
 import android.os.SystemClock
 import android.util.Log
 import com.google.gson.Gson
-import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager
+import com.jingdong.wireless.mpaas.jdreport.report.PFReportManager
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams
 import com.jingdong.wireless.mpaas.jdreport.entity.Strategy
-import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IJDReportListener
+import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IPFReportListener
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-object JdReportHandler {
+object PFReportHandler {
 
     // 本地mmkv保存拥有本地缓存数据的type类型的set
     private const val TYPE_SET_KEY = "TYPE_SET_KEY"
@@ -21,13 +21,13 @@ object JdReportHandler {
         MMKV.mmkvWithID("JD_PERFORMANCE_CONFIG", MMKV.MULTI_PROCESS_MODE)
     }
 
-    private val mMkvMap = mutableMapOf<JdReportType, MMKV>()
+    private val mMkvMap = mutableMapOf<PFReportType, MMKV>()
 
     @Volatile
     private var isInit = false
 
     @Synchronized
-    private fun getMMKV(type: JdReportType): MMKV {
+    private fun getMMKV(type: PFReportType): MMKV {
         return mMkvMap.getOrPut(type) {
             putTypeByName(type.name)
             MMKV.mmkvWithID(type.name.toUpperCase(), MMKV.MULTI_PROCESS_MODE)
@@ -37,7 +37,7 @@ object JdReportHandler {
     private val gson = Gson()
 
     fun saveInfo(
-        type: JdReportType, params: String?, listener: IJDReportListener? = null
+        type: PFReportType, params: String?, listener: IPFReportListener? = null
     ) {
         if (!isInit) {
             Log.e(CommonParams.TAG, "JDReportModule has not init")
@@ -56,7 +56,7 @@ object JdReportHandler {
                     params
                 )
             }
-            JdReportManager.reportByType(type, listener)
+            PFReportManager.reportByType(type, listener)
         }
     }
 
@@ -66,7 +66,7 @@ object JdReportHandler {
     fun uploadCache() {
         // 启动的时候上报所有已经存储的所有信息
         getHandleTypes().forEach {
-            JdReportManager.reportByType(it)
+            PFReportManager.reportByType(it)
         }
     }
 
@@ -83,12 +83,12 @@ object JdReportHandler {
     /**
      * 获取本地已经保存过数据的类型
      */
-    private fun getHandleTypes(): List<JdReportType> {
+    private fun getHandleTypes(): List<PFReportType> {
         val set: HashSet<String> =
             configMMKV.decodeStringSet(TYPE_SET_KEY, mutableSetOf()) as HashSet<String>
-        val handlerTypeList = mutableListOf<JdReportType>()
+        val handlerTypeList = mutableListOf<PFReportType>()
         set.forEach {
-            handlerTypeList.add(JdReportType.valueOf(it))
+            handlerTypeList.add(PFReportType.valueOf(it))
         }
         return handlerTypeList
     }
@@ -97,14 +97,14 @@ object JdReportHandler {
     /**
      * 获取所有key
      */
-    internal fun getAllPerformanceInfoKey(type: JdReportType): Array<String>? {
+    internal fun getAllPerformanceInfoKey(type: PFReportType): Array<String>? {
         return getMMKV(type).allKeys()
     }
 
     /**
      * 根据key删除value
      */
-    internal fun removePerformanceInfo(type: JdReportType, keys: MutableList<String>) {
+    internal fun removePerformanceInfo(type: PFReportType, keys: MutableList<String>) {
         getMMKV(type).removeValuesForKeys(keys.toTypedArray())
     }
 
@@ -117,16 +117,16 @@ object JdReportHandler {
         isInit = true
     }
 
-    internal fun getPerformanceInfo(name: String, type: JdReportType): HashMap<*, *>? {
+    internal fun getPerformanceInfo(name: String, type: PFReportType): HashMap<*, *>? {
         val body = getMMKV(type).getString(name, null)
         return gson.fromJson(body, HashMap::class.java)
     }
 
 
-    internal fun getDefaultStrategyByType(type: JdReportType): Strategy {
+    internal fun getDefaultStrategyByType(type: PFReportType): Strategy {
         return when (type) {
-            JdReportType.CRASH -> CommonParams.getDefaultReportStrategy()
-            JdReportType.NET -> CommonParams.getDefaultReportStrategy()
+            PFReportType.CRASH -> CommonParams.getDefaultReportStrategy()
+            PFReportType.NET -> CommonParams.getDefaultReportStrategy()
         }
     }
 }

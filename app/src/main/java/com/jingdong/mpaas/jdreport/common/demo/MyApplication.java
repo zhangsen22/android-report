@@ -2,7 +2,7 @@ package com.jingdong.mpaas.jdreport.common.demo;
 
 import android.app.Application;
 
-import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.JDReportModule;
+import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.PFReportModule;
 
 
 /**
@@ -16,6 +16,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        JDReportModule.onCreate(this,true);
+        PFReportModule.onCreate(this,true);
     }
 }

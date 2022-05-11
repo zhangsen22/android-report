@@ -1,6 +1,6 @@
 package com.jingdong.wireless.mpaas.jdreport.handler
 
-enum class JdReportType {
+enum class PFReportType {
     CRASH, //Crash信息
     NET // 网络信息
 }

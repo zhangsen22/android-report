@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.jd.mpaas.jdreport.common.demo.R
-import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.JDReportModule
+import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.PFReportModule
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +24,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.crash_click).setOnClickListener {
 
 //            for (index in 1..5) {
-                JDReportModule().saveCrashInfo(crashInfo, null)
-                JDReportModule().saveNetInfo(netInfo)
+                PFReportModule()
+                    .saveCrashInfo(crashInfo, null)
+                PFReportModule()
+                    .saveNetInfo(netInfo)
 //            }
         }
 
