@@ -1,0 +1,6 @@
+rootProject.name = "JDReporterModule-Android"
+include ':app'
+include ':jdreportimpl'
+/*include ':jdcontainer'
+project(':jdcontainer').projectDir = new File(settingsDir, "../JDContainer/library")*/
+//include ':jdreport-protocol'

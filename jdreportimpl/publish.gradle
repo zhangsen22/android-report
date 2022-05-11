@@ -1,0 +1,64 @@
+apply plugin: 'jd-maven-publish'
+
+def isSnapshot = rootProject.isSnapshot
+def mvnGroupId = rootProject.groupId
+def mvnArtifactId = "jd-report-impl"
+def mvnVersion = rootProject.versionName
+
+
+project.getTasks().whenTaskAdded { task ->
+    println(task.name)
+    if (task.name.startsWith("publish")) {
+        task.dependsOn assemble
+    }
+}
+
+publishing{
+    //配置要发布的文件及POM
+    publications{
+        // 发布 debug 包
+        debug(MavenPublication){ publication ->
+            //要发布的文件
+            artifact "$buildDir/outputs/aar/jdreportimpl-debug.aar"
+            //配置pom的groupId
+            groupId mvnGroupId
+            //配置pom的artifactId
+            artifactId mvnArtifactId
+            version isSnapshot ? "${mvnVersion}-SNAPSHOT" : mvnVersion
+            configDependencies publication, true,[['org.jacoco', 'org.jacoco.agent']
+                                                  , ['org.jacoco', 'org.jacoco.ant']
+                                                  , ["com.android.tools.build", "aapt2"]
+                                                  , ["androidx.multidex", "multidex"]
+                                                  , ["com.android.tools.lint", "lint-gradle"]]//不添加到pom的依赖项的group、name
+        }
+        // 发布 release 包
+        release(MavenPublication){publication ->
+            //要发布的文件
+            artifact "$buildDir/outputs/aar/jdreportimpl-release.aar"
+            //配置pom的groupId
+            groupId mvnGroupId
+            //配置pom的artifactId
+            artifactId mvnArtifactId
+            version isSnapshot ? "${mvnVersion}-SNAPSHOT" : mvnVersion
+            configDependencies publication, false,[['org.jacoco', 'org.jacoco.agent']
+                                                   , ['org.jacoco', 'org.jacoco.ant']
+                                                   , ["com.android.tools.build", "aapt2"]
+                                                   , ["androidx.multidex", "multidex"]
+                                                   , ["com.android.tools.lint", "lint-gradle"]]//不添加到pom的依赖项的group、name
+        }
+    }
+
+    //配置仓库
+    repositories {
+        maven { repo ->
+            name 'snapshots'
+            setSnapshot repo, true
+            url 'http://artifactory.jd.com/libs-snapshots-local/'
+        }
+        maven { repo ->
+            name 'releases'
+            setSnapshot repo, false
+            url 'http://artifactory.jd.com/libs-releases-local/'
+        }
+    }
+}
