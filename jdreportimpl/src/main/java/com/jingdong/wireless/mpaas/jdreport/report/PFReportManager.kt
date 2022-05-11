@@ -72,7 +72,9 @@ object PFReportManager {
             keys?.get(i)?.let {
                 keyList.add(it)
                 PFReportHandler.getPerformanceInfo(it, type)
-                    ?.let { it1 -> valueList.add(it1) }
+                    ?.let {
+                            it1 -> valueList.add(it1)
+                    }
             }
         }
         return Pair(gson.toJson(valueList), keyList)

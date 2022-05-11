@@ -37,10 +37,7 @@ internal object PFRequest {
     private fun setUploadIngStatue(type: PFReportType, status: Boolean) {
         when (type) {
             PFReportType.CRASH -> uploadIngCrash = status
-//            JdReportType.EXCEPTION -> uploadIngException = status
-//            JdReportType.PAGE -> uploadIngPage = status
             PFReportType.NET -> uploadIngNet = status
-//            JdReportType.START -> uploadIngStart = status
         }
     }
 

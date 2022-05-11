@@ -3,7 +3,6 @@ package com.jingdong.wireless.mpaas.jdreport.handler
 import android.content.Context
 import android.os.SystemClock
 import android.util.Log
-import com.google.gson.Gson
 import com.jingdong.wireless.mpaas.jdreport.report.PFReportManager
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams
 import com.jingdong.wireless.mpaas.jdreport.entity.Strategy
@@ -33,8 +32,6 @@ object PFReportHandler {
             MMKV.mmkvWithID(type.name.toUpperCase(), MMKV.MULTI_PROCESS_MODE)
         }
     }
-
-    private val gson = Gson()
 
     fun saveInfo(
         type: PFReportType, params: String?, listener: IPFReportListener? = null
@@ -117,9 +114,9 @@ object PFReportHandler {
         isInit = true
     }
 
-    internal fun getPerformanceInfo(name: String, type: PFReportType): HashMap<*, *>? {
+    internal fun getPerformanceInfo(name: String, type: PFReportType) : String? {
         val body = getMMKV(type).getString(name, null)
-        return gson.fromJson(body, HashMap::class.java)
+        return body
     }
 
 
