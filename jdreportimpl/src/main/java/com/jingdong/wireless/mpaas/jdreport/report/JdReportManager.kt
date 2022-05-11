@@ -3,7 +3,6 @@ package com.jingdong.wireless.mpaas.jdreport.report
 import android.util.Log
 import com.google.gson.Gson
 import com.jingdong.wireless.mpaas.jdreport.entity.EntityBody
-import com.jingdong.wireless.mpaas.jdreport.entity.JdReportBaseEntity
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportHandler
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportType
 import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IJDReportListener
@@ -57,20 +56,16 @@ object JdReportManager {
     ) {
         // 判断当前网络环境是否满足下发的配置
         if ("all" == JdReportHandler.getDefaultStrategyByType(type)?.reportNet) {
-            val jdReportBaseEntity = JdReportBaseEntity.createEntity()
             val valueList = mutableListOf<Any>()
             valueList.add(body)
-
-            jdReportBaseEntity.body = gson.toJson(EntityBody(valueList))
-            JdRequest.reportInfo(jdReportBaseEntity, type, ijdReportListener, params)
+            JdRequest.reportInfo(gson.toJson(EntityBody(valueList)), type, ijdReportListener, params)
         }
     }
 
     private fun getRequestBean(
         type: JdReportType,
         maxLogCount: Int
-    ): Pair<JdReportBaseEntity, MutableList<String>> {
-        val jdReportBaseEntity = JdReportBaseEntity.createEntity()
+    ): Pair<String, MutableList<String>> {
         val keys = JdReportHandler.getAllPerformanceInfoKey(type)
         val keyList = mutableListOf<String>()
         val valueList = mutableListOf<Any>()
@@ -82,7 +77,6 @@ object JdReportManager {
                     ?.let { it1 -> valueList.add(it1) }
             }
         }
-        jdReportBaseEntity.body = gson.toJson(EntityBody(valueList))
-        return Pair(jdReportBaseEntity, keyList)
+        return Pair(gson.toJson(EntityBody(valueList)), keyList)
     }
 }

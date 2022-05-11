@@ -2,8 +2,6 @@ package com.jingdong.wireless.mpaas.jdreport.jdreportprotocol;
 
 import android.content.Context;
 import android.util.Log;
-
-//import com.jingdong.wireless.mpaas.jdreport.entity.JDReportStrategy;
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportHandler;
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportType;
 import com.jingdong.wireless.mpaas.jdreport.report.JdReportManager;
@@ -36,11 +34,6 @@ public class JDReportModule implements IJDReportProtocol {
     public void reportNetInfo(Map<String, Object> params, IJDReportListener listener, Object info) {
         reportInfo(JdReportType.NET, params, listener, info);
     }
-
-//    @Override
-//    public JDReportStrategy getReportStrategy() {
-//        return JdReportHandler.INSTANCE.getCollectionConfig();
-//    }
 
     public static void onCreate(Context context, boolean b) {
         Log.i(CommonParams.TAG, "JDReportModule.onCreate()");

@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.crash_click).setOnClickListener {
 
-            for (index in 1..5) {
+//            for (index in 1..5) {
                 val crashInfos: HashMap<String, Any> =
                     gson.fromJson(crashInfo, HashMap::class.java) as HashMap<String, Any>
                 JDReportModule().saveCrashInfo(crashInfos, null, null)
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 val netInfos: HashMap<String, Any> =
                     gson.fromJson(netInfo, HashMap::class.java) as HashMap<String, Any>
                 JDReportModule().saveNetInfo(netInfos)
-            }
+//            }
         }
 
 //        val crashInfos: HashMap<String, Any> =

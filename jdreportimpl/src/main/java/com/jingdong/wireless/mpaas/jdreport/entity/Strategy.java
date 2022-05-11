@@ -1,11 +1,5 @@
 package com.jingdong.wireless.mpaas.jdreport.entity;
 
-/**
- * Author: xuweiyu
- * Date: 2021/11/17
- * Email: xuweiyu1@jd.com
- * Description:
- */
 public class Strategy {
     //数据上报开关1开0关
     private int enable = 1;

@@ -1,39 +1,20 @@
 package com.jingdong.wireless.mpaas.jdreport.report
 
-import android.text.TextUtils
 import android.util.Log
-import com.google.gson.Gson
-import com.jingdong.wireless.mpaas.jdreport.entity.JdReportBaseEntity
 import com.jingdong.wireless.mpaas.jdreport.handler.JdReportType
 import com.jingdong.wireless.mpaas.jdreport.jdreportprotocol.IJDReportListener
 import com.jingdong.wireless.mpaas.jdreport.util.CommonParams.TAG
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-/**
- * Author: xuweiyu
- * Date: 2021/9/13
- * Email: xuweiyu1@jd.com
- * Description:
- */
 internal object JdRequest {
 
-    private val gson = Gson()
 
     @Volatile
     private var uploadIngCrash = false
 
     @Volatile
-    private var uploadIngException = false
-
-    @Volatile
-    private var uploadIngPage = false
-
-    @Volatile
     private var uploadIngNet = false
-
-    @Volatile
-    private var uploadIngStart = false
 
     @Synchronized
     private fun isCanUpload(type: JdReportType): Boolean {
@@ -71,7 +52,7 @@ internal object JdRequest {
      * 上报信息 接口
      */
     fun reportInfo(
-        jdReportBaseEntity: JdReportBaseEntity,
+        data: String,
         type: JdReportType,
         listener: IJDReportListener?,
         params: Any?
@@ -80,7 +61,7 @@ internal object JdRequest {
             TAG, "准备上报数据 \n " +
                     //"body:${jdPerformanceBaseEntity.body} \n" +
                     //"url:${url} \n" +
-                    "数据:${jdReportBaseEntity.body} \n" +
+                    "数据:${data} \n" +
                     "类型：${type}"
         )
 
